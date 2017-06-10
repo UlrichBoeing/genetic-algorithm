@@ -1,5 +1,5 @@
 // Sensoren dürfen sich nicht bewegen, shape bewegt sensor
-// erstmal nicht !Sensoren sollen eine gewichtete fitness-history haben (nicht bei Positions-Sensor)
+// erstmal nicht -> Sensoren sollen eine gewichtete fitness-history haben (nicht bei Positions-Sensor)
 
 // holt fitness von sensor 
 // berechnet streuung mit fitness
