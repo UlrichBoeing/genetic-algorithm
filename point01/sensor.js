@@ -28,8 +28,3 @@ Sensor.prototype.calcFitness = function(x, y) {
     return this.fitness;
 }
 
-function Shape(x, y) {
-    this.pos = createVector(x, y);
-    this.sensor01 = new Sensor(target);
-
-}

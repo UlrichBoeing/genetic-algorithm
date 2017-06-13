@@ -1,0 +1,28 @@
+
+body {
+  padding: 0;
+  margin: 0;
+
+  background-color: #051126;
+  color: #CCE5E5;
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 11pt;
+  line-height: 150%;
+}
+
+#sketch {
+  /*background-color: green;*/
+  float: left;
+  margin-left: 60px;
+  margin-top: 60px;
+
+  width: 700px;
+}
+
+#panel {
+  /*background-color: yellow;*/
+  margin-left: 700px;
+  padding-top: 100px;
+  padding-right: 50px;
+}
