@@ -23,7 +23,7 @@ Sensor.prototype.calcFitness = function(x, y) {
 
     
     var v = createVector(x, y);
-    v.sub(target);
+    v.sub(this.target);
     this.fitness = 1 - (v.mag() / maxDistance.mag());
     return this.fitness;
 }
