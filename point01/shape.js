@@ -1,8 +1,11 @@
 function Shape(x, y) {
     this.pos = createVector(x, y);
-    this.sensor01 = new Sensor(target);
+    this.sensors = [];
     this.count = 0;
+}
 
+Shape.prototype.addSensor = function(sensor) {
+    this.sensors.push(sensor);
 }
 
 Shape.prototype.move = function() {

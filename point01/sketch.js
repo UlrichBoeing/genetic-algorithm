@@ -23,29 +23,30 @@ function setup() {
 
     target = createVector(300, 300);
     shape01 = new Shape(300, 300);
+    shape01.addSensor(new Sensor(target));
 
     noStroke();
 }
 
 function draw() {
-    // var fitness = sensor01.calcFitness(mouseX, mouseY);
+    // // var fitness = sensor01.calcFitness(mouseX, mouseY);
 
-    // var deviation = map(fitness, 0, 1, 0, 35);
-    // fill(250, 20);
-    // var x = randomGaussian(mouseX, deviation);
-    // var y = randomGaussian(mouseY, deviation);
-    // ellipse(x, y, 4, 4);
+    // // var deviation = map(fitness, 0, 1, 0, 35);
+    // // fill(250, 20);
+    // // var x = randomGaussian(mouseX, deviation);
+    // // var y = randomGaussian(mouseY, deviation);
+    // // ellipse(x, y, 4, 4);
 
-    shape01.move();
-    watch01.innerHTML = shape01.count;
-    shape01.show();
-
-    // var bgColor = fitness * 255;
-     
-    // target zeichnen
-    fill(palette.fg);
-    ellipse(target.x, target.y, 8, 8);
+    // shape01.move();
+    // watch01.innerHTML = shape01.count;
     // shape01.show();
+
+    // // var bgColor = fitness * 255;
+     
+    // // target zeichnen
+    // fill(palette.fg);
+    // ellipse(target.x, target.y, 8, 8);
+    // // shape01.show();
 }
 
 function mousePressed() {
