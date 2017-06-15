@@ -15,7 +15,7 @@ function Sensor(target) {
     this.target = target;
 }
 
-Sensor.prototype.calcFitness = function(x, y) {
+Sensor.prototype.getFitness = function(x, y) {
     // calculate maxDistance;
     var maxDistance = createVector();
     maxDistance.x = 300 + Math.abs(this.target.x - 300);

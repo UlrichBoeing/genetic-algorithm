@@ -1,5 +1,5 @@
-var target, target02;
-var shape01;
+var target;
+var path01;
 var canvas;
 var palette;
 var watch01;
@@ -20,44 +20,36 @@ function setup() {
 
 
     background(palette.highBg);
-
-    target = createVector(10, 10);
-    target02 = createVector(590, 590);
-    target03 = createVector(10, 590);
-    shape01 = new Shape(300, 300);
-    shape01.addSensor(new Sensor(target));
-    shape01.addSensor(new Sensor(target02));
-    // shape01.addSensor(new Sensor(target03));
-
     noStroke();
+
+    target = createVector(300, 300);
+    path01 = new Path();
+    path01.addSensor(new Sensor(target));
+
 }
 
 function draw() {
-    // var fitness = sensor01.calcFitness(mouseX, mouseY);
+    background(palette.highBg);
+    // watch01.innerHTML = path01.points.length;
+    if (path01.running) {
+        path01.addPoint();
+    } else {
 
-    // var deviation = map(fitness, 0, 1, 0, 35);
-    // fill(250, 20);
-    // var x = randomGaussian(mouseX, deviation);
-    // var y = randomGaussian(mouseY, deviation);
-    // ellipse(x, y, 4, 4);
+    }
+    path01.show();
 
-    shape01.move();
-    watch01.innerHTML = shape01.count;
-    shape01.show();
-
-    // var bgColor = fitness * 255;
-     
+ 
     // target zeichnen
     fill(palette.fg);
     ellipse(target.x, target.y, 8, 8);
-    // shape01.show();
 }
 
 function mousePressed() {
-    shape01 = new Shape(mouseX, mouseY);
-    shape01.addSensor(new Sensor(target02));
-    shape01.addSensor(new Sensor(target));
-    shape01.show();
+    // path01 = new Path();
+    // path01.addSensor(new Sensor(target));
+    path01.start(mouseX, mouseY);
+    
+    // path01.show();
 
 }
 
