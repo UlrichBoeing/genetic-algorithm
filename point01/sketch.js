@@ -1,8 +1,10 @@
 var target;
+
 var path01;
 var canvas;
 var palette;
 var watch01;
+
 
 function setup() {
     canvas = createCanvas(600, 600);
