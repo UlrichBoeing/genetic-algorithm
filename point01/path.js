@@ -3,7 +3,7 @@ function Path() {
     this.points = [];
     this.sensors = [];
 
-    this.maxPoints = 100;
+    this.maxPoints = 300;
     this.running = false;
 }
 
@@ -49,11 +49,24 @@ Path.prototype.checkTermination = function() {
 // fill in code to generate points examined by the fitness-function
 // points can be generated with randomGaussian or simply by circling around
 Path.prototype.createProposals = function(point) {
-    // function parameters
-    var deviation = 12;
-    var numProposals = 30;
-
     this.proposals = [];
+
+    // this.createGaussianProposal(point);
+    this.createCircleProposals(point);
+
+    if (this.proposals.length == 0) {
+        logError("No valid proposals generated");
+        return false;
+    }
+    return true;
+}
+
+// creating different kind of proposals
+Path.prototype.createGaussianProposal = function(point) {
+    // function parameters
+    var numProposals = 30;
+    var deviation = 12;
+
     for (i = 0; i < numProposals; i++) {
         var x = randomGaussian(point.x, deviation);
         var y = randomGaussian(point.y, deviation);
@@ -63,17 +76,29 @@ Path.prototype.createProposals = function(point) {
             this.proposals.push(createVector(x, y));
         }
     }
-    if (this.proposals.length == 0) {
-        logError("No valid proposals generated");
-        return false;
-    }
-    return true;
 }
+
+Path.prototype.createCircleProposals = function(point) {
+    var numProposals = 10;
+    var radius = 10;
+
+    for (var i = 0; i < numProposals; i++) {
+        var angle = (i / numProposals) * TWO_PI;
+        var x = point.x + cos(angle) * radius;
+        var y = point.y + sin(angle) * radius;
+        var v = createVector(x, y);
+
+        if (this.checkProposal(v)) {
+            this.proposals.push(createVector(x, y));
+        }
+    }
+}
+
 
 // fill in code to check proposals
 Path.prototype.checkProposal = function(v) {
     if ((v.x < 0) || (v.x > width) || (v.y < 0 ) || (v.y > height)) {
-        logError("Proposal outside canvas");
+        // logError("Proposal outside canvas");
         return false;
     } 
     return true;

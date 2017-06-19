@@ -24,6 +24,8 @@ function setup() {
     };
 
 
+    // frameRate(1);
+
     background(palette.highBg);
     noStroke();
 
@@ -40,7 +42,8 @@ function draw() {
     image(imgTarget, 0, 0);
     // watch01.innerHTML = path01.points.length;
     if (path01.running) {
-        path01.addPoint();
+        for (var i = 1; i < 5; i++)
+            path01.addPoint();
     } else {
 
     }
