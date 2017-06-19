@@ -3,7 +3,7 @@ function Path() {
     this.points = [];
     this.sensors = [];
 
-    this.maxPoints = 20;
+    this.maxPoints = 100;
     this.running = false;
 }
 
@@ -51,7 +51,7 @@ Path.prototype.checkTermination = function() {
 Path.prototype.createProposals = function(point) {
     // function parameters
     var deviation = 12;
-    var numProposals = 20;
+    var numProposals = 30;
 
     this.proposals = [];
     for (i = 0; i < numProposals; i++) {
@@ -105,10 +105,31 @@ Path.prototype.getFitness = function(point) {
     return this.fitness;
 }
 
+Path.prototype.getAngleToPoint= function(x, y) {
+    // to cut short
+    var len = this.points.length;
+
+    // 2 segments -> 3 points are necessary
+    // 2 points in the array and one new point (x,y)
+    if (len < 2) {
+        return -1;
+    }
+    // vector to new point
+    var vNew = createVector(x, y);
+    
+    // angle between segments lastToNew and secondToLast
+    var vLastToNew = p5.Vector.sub(vNew, this.points[len-1]);
+    var vSecondToLast = p5.Vector.sub(this.points[len-1], this.points[len-2]);
+    var radAngle = vSecondToLast.angleBetween(vLastToNew)
+
+    // returns angles between 0 (forward) and 180 (going back)
+    return (radAngle / TWO_PI) * 360;
+}
+
 Path.prototype.show = function(){
     // show parameters
-    var size = 4;
-    var aColor = color(palette.main.levels[0] , palette.main.levels[1] ,palette.main.levels[2],90);
+    var size = 8;
+    var aColor = color(palette.bg.levels[0] , palette.bg.levels[1] ,palette.bg.levels[2],90);
 
     noStroke();
     fill(aColor);
