@@ -23,7 +23,8 @@ function setup() {
         fg: color('#CCE5E5')
     };
 
-
+    // Test: for better performance
+    imgTarget.loadPixels();
     // frameRate(1);
 
     background(palette.highBg);
@@ -38,11 +39,12 @@ function setup() {
 }
 
 function draw() {
+    imgTarget.loadPixels();
     background(palette.highBg);
     image(imgTarget, 0, 0);
     // watch01.innerHTML = path01.points.length;
     if (path01.running) {
-        for (var i = 1; i < 5; i++)
+        for (var i = 1; i < 4; i++)
             path01.addPoint();
     } else {
 
@@ -53,6 +55,8 @@ function draw() {
     // posTarget zeichnen
     fill(palette.bg);
     ellipse(posTarget.x, posTarget.y, 8, 8);
+
+    imgTarget.updatePixels();
 }
 
 function mousePressed() {

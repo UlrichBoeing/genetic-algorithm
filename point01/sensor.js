@@ -35,12 +35,22 @@ function ImageSensor(target) {
 ImageSensor.prototype.getFitness = function(x, y) {
     // calculates fitness based upon brightness
     var max = 255;
+    x = floor(x);
+    y = floor(y);
 
-    var pixel = get(x, y);
-    var redChannel = pixel[0];
-    this.fitness = redChannel / max;
+    // var pixel = imgTarget.get(x, y);
+    // var redChannel = pixel[0];
+
+    var index = (x + y * imgTarget.height) * 4;
+    var altRedChannel = imgTarget.pixels[index];
+
+
+    // if (redChannel != altRedChannel) {
+    //     console.log(redChannel + " " + altRedChannel);
+    // }
+    this.fitness = altRedChannel / max;
     
-    return Math.pow(this.fitness, 1);
+    return this.fitness;
 }
 
 // Is the new point moving "forward"
