@@ -3,7 +3,7 @@ function Path() {
     this.points = [];
     this.sensors = [];
 
-    this.maxPoints = 300;
+    this.maxPoints = 200;
     this.running = false;
 }
 

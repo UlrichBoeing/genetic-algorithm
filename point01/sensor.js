@@ -49,7 +49,7 @@ ImageSensor.prototype.getFitness = function(x, y) {
     //     console.log(redChannel + " " + altRedChannel);
     // }
     this.fitness = altRedChannel / max;
-    
+    // this.fitness = 1 - this.fitness;
     return this.fitness;
 }
 
