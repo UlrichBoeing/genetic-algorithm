@@ -1,8 +1,13 @@
-var target;
-var shape01;
+var posTarget, imgTarget;
+
+var path01;
 var canvas;
 var palette;
 var watch01;
+
+function preload() {
+    imgTarget = loadImage("images/map01.jpg");
+}
 
 function setup() {
     canvas = createCanvas(600, 600);
@@ -18,39 +23,48 @@ function setup() {
         fg: color('#CCE5E5')
     };
 
+    // Test: for better performance
+    imgTarget.loadPixels();
+    // frameRate(1);
 
     background(palette.highBg);
-
-    target = createVector(300, 300);
-    shape01 = new Shape(300, 300);
-
     noStroke();
+
+    posTarget = createVector(307, 335);
+    path01 = new Path();
+    path01.addSensor(new PositionSensor(posTarget));
+    path01.addSensor(new ImageSensor(imgTarget));
+    path01.addSensor(new ForwardSensor(path01));
+    
 }
 
 function draw() {
-    // var fitness = sensor01.calcFitness(mouseX, mouseY);
+    imgTarget.loadPixels();
+    background(palette.highBg);
+    image(imgTarget, 0, 0);
+    // watch01.innerHTML = path01.points.length;
+    if (path01.running) {
+        for (var i = 1; i < 4; i++)
+            path01.addPoint();
+    } else {
 
-    // var deviation = map(fitness, 0, 1, 0, 35);
-    // fill(250, 20);
-    // var x = randomGaussian(mouseX, deviation);
-    // var y = randomGaussian(mouseY, deviation);
-    // ellipse(x, y, 4, 4);
+    }
+    path01.show();
 
-    shape01.move();
-    watch01.innerHTML = shape01.count;
-    shape01.show();
+ 
+    // posTarget zeichnen
+    fill(palette.bg);
+    ellipse(posTarget.x, posTarget.y, 8, 8);
 
-    // var bgColor = fitness * 255;
-     
-    // target zeichnen
-    fill(palette.fg);
-    ellipse(target.x, target.y, 8, 8);
-    // shape01.show();
+    imgTarget.updatePixels();
 }
 
 function mousePressed() {
-    shape01 = new Shape(mouseX, mouseY);
-    shape01.show();
+    // path01 = new Path();
+    // path01.addSensor(new PositionSensor(posTarget));
+    path01.start(mouseX, mouseY);
+    
+    // path01.show();
 
 }
 

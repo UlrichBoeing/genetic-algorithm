@@ -1,12 +1,17 @@
 function Shape(x, y) {
     this.pos = createVector(x, y);
-    this.sensor01 = new Sensor(target);
+    this.sensors = [];
     this.count = 0;
+}
 
+Shape.prototype.addSensor = function(sensor) {
+    this.sensors.push(sensor);
 }
 
 Shape.prototype.move = function() {
-    var fitness = this.sensor01.calcFitness(this.pos.x, this.pos.y);
+    if (this.count > 30)
+        return;
+    var fitness = this.calcFitness(this.pos.x, this.pos.y);
     // fitness = 0.99999;
     if (fitness < 0.99) {
         this.count++;
@@ -14,13 +19,14 @@ Shape.prototype.move = function() {
     }
     var deviation = map(fitness, 0, 1, 50, 0);
 //    console.log(Math.floor(deviation*100)/100);
+    deviation = 10;
 
     var bestFitness = -1;
     var bestPoint = createVector(0,0);
     for (var i = 0; i < 20; i++) {
         var x = randomGaussian(this.pos.x, deviation);
         var y = randomGaussian(this.pos.y, deviation);
-        var newFitness = this.sensor01.calcFitness(x, y);
+        var newFitness = this.calcFitness(x, y);
         if (newFitness > bestFitness) {
             bestFitness = newFitness;
             bestPoint = createVector(x, y);
@@ -37,6 +43,14 @@ Shape.prototype.move = function() {
 
 }
 
+Shape.prototype.calcFitness = function(x, y) {
+    var sum = 0;
+    for (var i = 0; i < this.sensors.length; i++) {
+        sum += this.sensors[i].calcFitness(x, y);
+    }
+    this.fitness = sum / this.sensors.length;
+    return this.fitness;
+}
 
 Shape.prototype.show = function(){
     noStroke();
