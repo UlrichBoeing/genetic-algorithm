@@ -7,8 +7,6 @@
 // sucht den besten aus 
 // von von vorne 
 
-// Sensor kann neue Punkte vorschlagen???
-
 function PositionSensor(target) {
     this.target = target;
     this.fitness = -1;
