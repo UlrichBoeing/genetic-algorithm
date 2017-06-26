@@ -14,7 +14,14 @@ function PositionSensor(target) {
     this.fitness = -1;
 }
 
+PositionSensor.prototype.createArrays = function(numProposals) {
+    
+    
+}
+
 PositionSensor.prototype.getFitness = function(x, y) {
+    // setter methods for target->maxDistance, numProposals->size of arrays
+    
     // calculate maxDistance;
     var maxDistance = createVector();
     maxDistance.x = 300 + Math.abs(this.target.x - 300);
