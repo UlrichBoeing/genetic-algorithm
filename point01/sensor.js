@@ -7,10 +7,19 @@
 // sucht den besten aus 
 // von von vorne 
 
-function PositionSensor(target) {
+/* **************************************************************
+ Sensor base class 
+ ************************************************************** */
+function Sensor(path) {
+    this.path = path;
+}
+
+function PositionSensor(path, target) {
+    Sensor.call(this, path);
     this.target = target;
     this.fitness = -1;
 }
+PositionSensor.prototype = Object.create(Sensor.prototype);
 
 PositionSensor.prototype.createArrays = function(numProposals) {
     
@@ -32,10 +41,12 @@ PositionSensor.prototype.getFitness = function(x, y) {
     return Math.pow(this.fitness, 1);
 }
 
-function ImageSensor(target) {
+function ImageSensor(path, target) {
+    Sensor.call(this, path);
     this.target = target;
     this.fitness = -1;
 }
+ImageSensor.prototype = Object.create(Sensor.prototype);
 
 ImageSensor.prototype.getFitness = function(x, y) {
     // calculates fitness based upon brightness
@@ -46,8 +57,8 @@ ImageSensor.prototype.getFitness = function(x, y) {
     // var pixel = imgTarget.get(x, y);
     // var redChannel = pixel[0];
 
-    var index = (x + y * imgTarget.height) * 4;
-    var altRedChannel = imgTarget.pixels[index];
+    var index = (x + y * this.target.height) * 4;
+    var altRedChannel = this.target.pixels[index];
 
 
     // if (redChannel != altRedChannel) {
@@ -60,9 +71,10 @@ ImageSensor.prototype.getFitness = function(x, y) {
 
 // Is the new point moving "forward"
 function ForwardSensor(path) {
-    this.path = path;
+    Sensor.call(this, path);
     this.fitness = -1;
 }
+ForwardSensor.prototype = Object.create(Sensor.prototype);
 
 ForwardSensor.prototype.getFitness = function(x, y) {
     var max = 180;

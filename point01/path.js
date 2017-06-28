@@ -1,3 +1,9 @@
+// 3 standard sensors
+// Positionsensor -> is target reached
+// ForwardSensor -> is path moving backwards
+// ImageSensor -> should part of path be visible
+
+
 // Constructor 
 function Path() {
     this.points = [];
