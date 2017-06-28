@@ -11,6 +11,14 @@ function Path() {
 
     this.maxPoints = 200;
     this.running = false;
+    
+    
+    // Declare variables
+    this.numProposals = 0;
+    this.proposals = [];
+
+
+    this.setNumProposals(10);
 }
 
 Path.prototype.addSensor = function(sensor) {
@@ -55,7 +63,6 @@ Path.prototype.checkTermination = function() {
 // fill in code to generate points examined by the fitness-function
 // points can be generated with randomGaussian or simply by circling around
 Path.prototype.createProposals = function(point) {
-    this.proposals = [];
 
     // this.createGaussianProposal(point);
     this.createCircleProposals(point);
@@ -70,7 +77,7 @@ Path.prototype.createProposals = function(point) {
 // creating different kind of proposals
 Path.prototype.createGaussianProposal = function(point) {
     // function parameters
-    var numProposals = 30;
+    var numProposals = this.numProposals;
     var deviation = 12;
 
     for (i = 0; i < numProposals; i++) {
@@ -85,7 +92,7 @@ Path.prototype.createGaussianProposal = function(point) {
 }
 
 Path.prototype.createCircleProposals = function(point) {
-    var numProposals = 10;
+    var numProposals = this.numProposals;
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {
@@ -95,7 +102,7 @@ Path.prototype.createCircleProposals = function(point) {
         var v = createVector(x, y);
 
         if (this.checkProposal(v)) {
-            this.proposals.push(createVector(x, y));
+            this.proposals[i] = createVector(x, y);
         }
     }
 }
@@ -168,6 +175,24 @@ Path.prototype.show = function(){
         ellipse(this.points[i].x, this.points[i].y, size, size);
     }
 }
+
+/* **************************************************************
+Getter and setter
+ ************************************************************** */
+
+Path.prototype.setNumProposals = function(num) {
+    this.numProposals = num;
+
+    this.proposals = new Array(num);
+}
+
+
+
+
+
+
+
+
 
 
 function logError(message) {
