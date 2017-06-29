@@ -68,7 +68,7 @@ Path.prototype.createProposals = function(point) {
     // calculate unnormalized fitness values
     // &&& for all sensors
     for (var i = 0; i < this.sensors.length; i++) {
-        console.log(this.sensors[i].name);
+        // console.log(this.sensors[i].name);
         this.sensors[i].calcFitness();
     }
     return true;
@@ -92,7 +92,7 @@ Path.prototype.createGaussianProposal = function(point) {
 }
 
 Path.prototype.createCircleProposals = function(point) {
-    var numProposals = 7;
+    var numProposals = 10;
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {
@@ -121,7 +121,7 @@ Path.prototype.getBestProposal = function() {
     bestFitness = -1;
     bestIndex = -1;
     for (var i = 0; i < this.proposals.length; i++) {
-        var fitness = this.getFitness(this.proposals[i]);
+        var fitness = this.getFitness(i);
         if (fitness > bestFitness) {
             bestIndex = i;
             bestFitness = fitness;
@@ -134,10 +134,10 @@ Path.prototype.getBestProposal = function() {
     return this.proposals[bestIndex];
 }
 
-Path.prototype.getFitness = function(point) {
+Path.prototype.getFitness = function(index) {
     var sum = 0;
     for (var i = 0; i < this.sensors.length; i++) {
-        sum += this.sensors[i].getFitness(point.x, point.y);
+        sum += this.sensors[i].fitness[index];
     }
     this.fitness = sum / this.sensors.length;
     return this.fitness;

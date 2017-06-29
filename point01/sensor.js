@@ -35,17 +35,19 @@ Sensor.prototype.calcFitness = function() {
     }
     this.mapFitness();
 
-    console.log(this.uFitness);
-    console.log(this.fitness);
+    // console.log(this.uFitness);
+    // console.log(this.fitness);
 }
 
 Sensor.prototype.mapFitness = function() {
     this.fitness = new Array(this.uFitness.length);
 
     for (var i = 0; i < this.uFitness.length; i++) {
-        var val = map(this.uFitness[i], this.inRange[0], this.inRange[1], 0, 1);
+        var val = this.uFitness[i]
+        // var val = map(val, this.inRange[0], this.inRange[1], 0, 1);
         val = Math.pow(val, this.exponent);
-        this.fitness[i] = map(val, 0, 1, this.outRange[0], this.outRange[1]);
+        // val = map(val, 0, 1, this.outRange[0], this.outRange[1]);
+        this.fitness[i] = val;
     }
 }
 
@@ -166,7 +168,7 @@ ForwardSensor.prototype.getFitness = function(x, y) {
     var max = 180;
     var angle = this.path.getAngleToPoint(x,y);
     this.fitness = (max - angle) / max;
-    return Math.pow(this.fitness, 0.04);
+    return this.fitness;
 }
 
 

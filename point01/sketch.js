@@ -33,8 +33,14 @@ function setup() {
     posTarget = createVector(307, 335);
     path01 = new Path();
     path01.addSensor(new PositionSensor(path01, posTarget));
-    path01.addSensor(new ImageSensor(path01, imgTarget));
-    path01.addSensor(new ForwardSensor(path01));
+    
+    var is = new ImageSensor(path01, imgTarget);
+    is.exponent = 1;
+    path01.addSensor(is);
+
+    var fs = new ForwardSensor(path01);
+    fs.exponent = 0.04;
+    path01.addSensor(fs);
     
 }
 
