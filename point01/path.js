@@ -10,7 +10,7 @@ function Path() {
     this.sensors = [];
     this.proposals = [];
 
-    this.maxPoints = 100;
+    this.maxPoints = 140;
     this.running = false;
 }
 
@@ -67,7 +67,10 @@ Path.prototype.createProposals = function(point) {
     }
     // calculate unnormalized fitness values
     // &&& for all sensors
-    this.sensors[0].calcFitness();
+    for (var i = 0; i < this.sensors.length; i++) {
+        console.log(this.sensors[i].name);
+        this.sensors[i].calcFitness();
+    }
     return true;
 }
 
@@ -89,7 +92,7 @@ Path.prototype.createGaussianProposal = function(point) {
 }
 
 Path.prototype.createCircleProposals = function(point) {
-    var numProposals = 10;
+    var numProposals = 7;
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {
