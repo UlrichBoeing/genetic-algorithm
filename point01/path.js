@@ -10,7 +10,7 @@ function Path() {
     this.sensors = [];
     this.proposals = [];
 
-    this.maxPoints = 200;
+    this.maxPoints = 100;
     this.running = false;
 }
 
@@ -89,7 +89,7 @@ Path.prototype.createGaussianProposal = function(point) {
 }
 
 Path.prototype.createCircleProposals = function(point) {
-    var numProposals = 12;
+    var numProposals = 10;
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {

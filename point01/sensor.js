@@ -12,14 +12,39 @@
  ************************************************************** */
 function Sensor(path) {
     this.path = path;
+    
     // unnormalized fitness
     this.uFitness = [];
+    this.fitness = [];
+    this.inRange = [];
+    this.outRange = [0, 1];
+    this.exponent = 1;
+
 }
+
+Sensor.prototype.mapFitness = function() {
+    this.fitness = new Array(this.uFitness.length);
+
+    for (var i = 0; i < this.uFitness.length; i++) {
+        var val = map(this.uFitness[i], this.inRange[0], this.inRange[1], 0, 1);
+        val = Math.pow(val, this.exponent);
+        this.fitness[i] = map(val, 0, 1, this.outRange[0], this.outRange[1]);
+    }
+}
+
+Sensor.prototype.adjustInRange = function(fitness) {
+    if (fitness < this.inRange[0]) {
+        this.inRange[0] = fitness;
+    }
+    if (fitness > this.inRange[1]) {
+        this.inRange[1] = fitness;
+    }
+}
+
 
 function PositionSensor(path, target) {
     Sensor.call(this, path);
     this.target = target;
-    this.fitness = -1;
 }
 PositionSensor.prototype = Object.create(Sensor.prototype);
 
@@ -29,30 +54,25 @@ PositionSensor.prototype.createArrays = function(numProposals) {
 }
 
 PositionSensor.prototype.calcFitness = function() {
-    this.uFitness = [];
+    var proposals = this.path.proposals;
+    this.uFitness = new Array(proposals.length);
     
     // calculate maxDistance;
     var maxDistance = createVector();
     maxDistance.x = 300 + Math.abs(this.target.x - 300);
     maxDistance.y = 300 + Math.abs(this.target.y - 300);
 
-    this.minFitness = 1;
-    this.maxFitness = 0;
+    this.inRange = [1, 0];
 
-    for (var i = 0; i < this.path.proposals.length; i++) {
-        var v = this.path.proposals[i];
+    for (var i = 0; i < proposals.length; i++) {
+        var v = proposals[i];
         v = v.copy();
         v.sub(this.target);
         var fitness = 1 - (v.mag() / maxDistance.mag())
-        this.uFitness.push(fitness);
-        if (fitness < this.minFitness) {
-            this.minFitness = fitness;
-        }
-        if (fitness > this.maxFitness) {
-            this.maxFitness = fitness;
-        }
+        this.uFitness[i] = fitness;
+        this.adjustInRange(fitness);
     }
-    console.log("minFitness: " + this.minFitness + " maxFitness: " + this.maxFitness);
+    this.mapFitness();
 }
 
 PositionSensor.prototype.getFitness = function(x, y) {
