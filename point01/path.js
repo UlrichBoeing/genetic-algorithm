@@ -8,6 +8,7 @@
 function Path() {
     this.points = [];
     this.sensors = [];
+    this.proposals = [];
 
     this.maxPoints = 200;
     this.running = false;
@@ -64,6 +65,9 @@ Path.prototype.createProposals = function(point) {
         logError("No valid proposals generated");
         return false;
     }
+    // calculate unnormalized fitness values
+    // &&& for all sensors
+    this.sensors[0].calcFitness();
     return true;
 }
 
@@ -85,7 +89,7 @@ Path.prototype.createGaussianProposal = function(point) {
 }
 
 Path.prototype.createCircleProposals = function(point) {
-    var numProposals = 10;
+    var numProposals = 12;
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {

@@ -12,6 +12,8 @@
  ************************************************************** */
 function Sensor(path) {
     this.path = path;
+    // unnormalized fitness
+    this.uFitness = [];
 }
 
 function PositionSensor(path, target) {
@@ -26,8 +28,35 @@ PositionSensor.prototype.createArrays = function(numProposals) {
     
 }
 
+PositionSensor.prototype.calcFitness = function() {
+    this.uFitness = [];
+    
+    // calculate maxDistance;
+    var maxDistance = createVector();
+    maxDistance.x = 300 + Math.abs(this.target.x - 300);
+    maxDistance.y = 300 + Math.abs(this.target.y - 300);
+
+    this.minFitness = 1;
+    this.maxFitness = 0;
+
+    for (var i = 0; i < this.path.proposals.length; i++) {
+        var v = this.path.proposals[i];
+        v = v.copy();
+        v.sub(this.target);
+        var fitness = 1 - (v.mag() / maxDistance.mag())
+        this.uFitness.push(fitness);
+        if (fitness < this.minFitness) {
+            this.minFitness = fitness;
+        }
+        if (fitness > this.maxFitness) {
+            this.maxFitness = fitness;
+        }
+    }
+    console.log("minFitness: " + this.minFitness + " maxFitness: " + this.maxFitness);
+}
+
 PositionSensor.prototype.getFitness = function(x, y) {
-    // setter methods for target->maxDistance, numProposals->size of arrays
+    // setter methods for target->maxDistance
     
     // calculate maxDistance;
     var maxDistance = createVector();
