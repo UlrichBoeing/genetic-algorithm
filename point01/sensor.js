@@ -92,8 +92,9 @@ PositionSensor.prototype.getFitness = function(x, y) {
     
     var v = createVector(x, y);
     v.sub(this.target);
-    this.fitness = 1 - (v.mag() / maxDistance.mag());
-    return this.fitness;
+    var fitness = 1 - (v.mag() / maxDistance.mag());
+    
+    return fitness;
 }
 
 PositionSensor.prototype.checkTermination = function() {
@@ -147,19 +148,19 @@ ForwardSensor.prototype.getFitness = function(x, y) {
     return this.fitness;
 }
 
-ForwardSensor.prototype.checkProposal= function(x, y) {
-    if (this.path.points.length < 2) {
-        return true;
-    }
+// ForwardSensor.prototype.checkProposal= function(x, y) {
+//     if (this.path.points.length < 2) {
+//         return true;
+//     }
 
-    var fitness = this.getFitness(x, y);
-    // console.log(fitness);
-    if (fitness < 0.85) {
-        console.log("false");
-        return false;
-    }
-    console.log("true");
-    return true;
-}
+//     var fitness = this.getFitness(x, y);
+//     // console.log(fitness);
+//     if (fitness < 0.85) {
+//         console.log("false");
+//         return false;
+//     }
+//     console.log("true");
+//     return true;
+// }
 
 

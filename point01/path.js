@@ -179,14 +179,27 @@ Path.prototype.getAngleToPoint= function(x, y) {
 
 Path.prototype.show = function(){
     // show parameters
-    var size = 8;
+    var size = 9;
     var aColor = color(palette.bg.levels[0] , palette.bg.levels[1] ,palette.bg.levels[2],90);
-
     noStroke();
     fill(aColor);
     for (var i = 0; i < this.points.length; i++) {
+        x = this.points[i].x;
+        y = this.points[i].y;
+        red = 255 * this.sensors[0].getFitness(x, y);
+        blue = 255 * this.sensors[1].getFitness(x, y);
+        var aColor = color(red, red/3, red/2);
+        fill(aColor);
         ellipse(this.points[i].x, this.points[i].y, size, size);
     }
+    // for (var i = 0; i < this.proposals.length; i++) {
+    //     var red = 255 - this.sensors[0].fitness[i] * 255;
+    //     var green = 255 - this.sensors[1].fitness[i] * 255;
+    //     var blue = 255- this.sensors[2].fitness[i] * 255;
+    //     var propColor = color(red, green, blue, 230);
+    //     fill(propColor);
+    //     ellipse(this.proposals[i].x, this.proposals[i].y, 8, 8);
+    // }
 }
 
 

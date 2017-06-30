@@ -43,6 +43,8 @@ function setup() {
     var fs = new ForwardSensor(path01);
     fs.exponent = 0.018;
     path01.addSensor(fs);
+
+    // frameRate(2);
     
 }
 
@@ -52,7 +54,7 @@ function draw() {
     image(imgTarget, 0, 0);
     // watch01.innerHTML = path01.points.length;
     if (path01.running) {
-        for (var i = 1; i < 100; i++)
+        for (var i = 0; i < 1; i++)
             path01.addPoint();
     } else {
 
