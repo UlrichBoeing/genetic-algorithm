@@ -10,7 +10,7 @@ function Path() {
     this.sensors = [];
     this.proposals = [];
 
-    this.maxPoints = 140;
+    this.maxPoints =1000;
     this.running = false;
 }
 
@@ -32,11 +32,14 @@ Path.prototype.addPoint = function(v) {
         return false;
     }
 
-    var lastPoint = this.points[this.points.length -1];
-    if (this.createProposals(lastPoint)) {
+    if (this.createProposals(this.lastPoint())) {
         var point = this.getBestProposal(this.proposals)
         this.points.push(point);
     }
+}
+
+Path.prototype.lastPoint = function() {
+    return this.points[this.points.length -1];
 }
 
 // fill in code to terminate the build process
@@ -46,6 +49,10 @@ Path.prototype.checkTermination = function() {
         return true;
     }
 
+    for (var i = 0; i < this.sensors.length; i++) {
+        if (this.sensors[i].checkTermination())
+            return true;
+    }
     // maybe check if new points stay in a spot
     // instead of moving forward
 
@@ -92,7 +99,7 @@ Path.prototype.createGaussianProposal = function(point) {
 }
 
 Path.prototype.createCircleProposals = function(point) {
-    var numProposals = 10;
+    var numProposals = 20;
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {
@@ -114,6 +121,12 @@ Path.prototype.checkProposal = function(v) {
         // logError("Proposal outside canvas");
         return false;
     } 
+
+    for (var i = 0; i < this.sensors.length; i++) {
+        if (!this.sensors[i].checkProposal(v.x, v.y)) {
+            return false;
+        }
+    }
     return true;
 }
 

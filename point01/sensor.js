@@ -7,6 +7,8 @@
 // sucht den besten aus 
 // von von vorne 
 
+// sensor untersucht checkProposal (radius erhöhen)
+
 /* **************************************************************
  Sensor base class 
  ************************************************************** */
@@ -39,6 +41,10 @@ Sensor.prototype.calcFitness = function() {
     // console.log(this.fitness);
 }
 
+Sensor.prototype.getFitness = function(x, y) {
+    return 1;
+}
+
 Sensor.prototype.mapFitness = function() {
     this.fitness = new Array(this.uFitness.length);
 
@@ -60,6 +66,13 @@ Sensor.prototype.adjustInRange = function(fitness) {
     }
 }
 
+Sensor.prototype.checkProposal = function(x, y) {
+    return true;
+}
+
+Sensor.prototype.checkTermination = function() {
+    return false;
+}
 
 function PositionSensor(path, target) {
     Sensor.call(this, path);
@@ -67,33 +80,6 @@ function PositionSensor(path, target) {
     this.name = "PositionSensor";
 }
 PositionSensor.prototype = Object.create(Sensor.prototype);
-
-PositionSensor.prototype.createArrays = function(numProposals) {
-    
-    
-}
-
-// PositionSensor.prototype.calcFitness = function() {
-//     var proposals = this.path.proposals;
-//     this.uFitness = new Array(proposals.length);
-//     this.inRange = [1, 0];
-
-
-//     // calculate maxDistance;
-//     var maxDistance = createVector();
-//     maxDistance.x = 300 + Math.abs(this.target.x - 300);
-//     maxDistance.y = 300 + Math.abs(this.target.y - 300);
-
-//     for (var i = 0; i < proposals.length; i++) {
-//         var v = proposals[i];
-//         v = v.copy();
-//         v.sub(this.target);
-//         var fitness = 1 - (v.mag() / maxDistance.mag())
-//         this.uFitness[i] = fitness;
-//         this.adjustInRange(fitness);
-//     }
-//     this.mapFitness();
-// }
 
 PositionSensor.prototype.getFitness = function(x, y) {
     // setter methods for target->maxDistance
@@ -110,31 +96,21 @@ PositionSensor.prototype.getFitness = function(x, y) {
     return this.fitness;
 }
 
+PositionSensor.prototype.checkTermination = function() {
+    var lastPoint = this.path.lastPoint();
+    var fitness = this.getFitness(lastPoint.x, lastPoint.y);
+    if (fitness > 0.98)
+        return true;
+
+    return false;
+}
+
 function ImageSensor(path, target) {
     Sensor.call(this, path);
     this.target = target;
     this.name = "ImageSensor";    
 }
 ImageSensor.prototype = Object.create(Sensor.prototype);
-
-// ImageSensor.prototype.calcFitness = function() {
-//     var proposals = this.path.proposals;
-//     this.uFitness = new Array(proposals.length);
-//     this.inRange = [1, 0];
-
-//     var max = 255;
-//      for (var i = 0; i < proposals.length; i++) {
-//         var x = floor(proposals[i].x);
-//         var y = floor(proposals[i].y);
-
-//         var index = (x + y * this.target.height) * 4;
-//         var altRedChannel = this.target.pixels[index];
-//         var fitness = altRedChannel / max;
-//         this.uFitness[i] = fitness;
-//         this.adjustInRange(fitness);
-//     }
-//     this.mapFitness();
-// }  
 
 ImageSensor.prototype.getFitness = function(x, y) {
     // calculates fitness based upon brightness
@@ -169,6 +145,21 @@ ForwardSensor.prototype.getFitness = function(x, y) {
     var angle = this.path.getAngleToPoint(x,y);
     this.fitness = (max - angle) / max;
     return this.fitness;
+}
+
+ForwardSensor.prototype.checkProposal= function(x, y) {
+    if (this.path.points.length < 2) {
+        return true;
+    }
+
+    var fitness = this.getFitness(x, y);
+    // console.log(fitness);
+    if (fitness < 0.85) {
+        console.log("false");
+        return false;
+    }
+    console.log("true");
+    return true;
 }
 
 

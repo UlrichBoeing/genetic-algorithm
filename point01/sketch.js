@@ -32,14 +32,16 @@ function setup() {
 
     posTarget = createVector(307, 335);
     path01 = new Path();
-    path01.addSensor(new PositionSensor(path01, posTarget));
+    var ps = new PositionSensor(path01, posTarget);
+    ps.exponent = 1;
+    path01.addSensor(ps);
     
     var is = new ImageSensor(path01, imgTarget);
-    is.exponent = 1;
+    is.exponent = 0.7;
     path01.addSensor(is);
 
     var fs = new ForwardSensor(path01);
-    fs.exponent = 0.04;
+    fs.exponent = 0.018;
     path01.addSensor(fs);
     
 }
@@ -50,7 +52,7 @@ function draw() {
     image(imgTarget, 0, 0);
     // watch01.innerHTML = path01.points.length;
     if (path01.running) {
-        for (var i = 1; i < 4; i++)
+        for (var i = 1; i < 100; i++)
             path01.addPoint();
     } else {
 
