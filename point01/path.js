@@ -10,7 +10,7 @@ function Path() {
     this.sensors = [];
     this.proposals = [];
 
-    this.maxPoints =1000;
+    this.maxPoints =300;
     this.running = false;
 }
 
@@ -34,8 +34,18 @@ Path.prototype.addPoint = function(v) {
 
     if (this.createProposals(this.lastPoint())) {
         var point = this.getBestProposal(this.proposals)
+        if (point == false) {
+            this.running = false;
+            return false;
+        } else {
         this.points.push(point);
+        return true;
+        }
+    } else {
+        this.running = false;
+        return false;
     }
+
 }
 
 Path.prototype.lastPoint = function() {
@@ -68,7 +78,7 @@ Path.prototype.createProposals = function(point) {
     // this.createGaussianProposal(point);
     this.createCircleProposals(point);
 
-    if (this.proposals.length == 0) {
+    if (this.proposals.length < 1) {
         logError("No valid proposals generated");
         return false;
     }
@@ -149,10 +159,13 @@ Path.prototype.getBestProposal = function() {
 
 Path.prototype.getFitness = function(index) {
     var sum = 0;
+    var sumWeight = 0;
+
     for (var i = 0; i < this.sensors.length; i++) {
-        sum += this.sensors[i].fitness[index];
+        sum += this.sensors[i].fitness[index] * this.sensors[i].weight;
+        sumWeight += this.sensors[i].weight;
     }
-    this.fitness = sum / this.sensors.length;
+    this.fitness = sum / sumWeight;
     return this.fitness;
 }
 

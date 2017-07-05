@@ -20,6 +20,7 @@ function Sensor(path) {
     this.fitness = [];
     this.inRange = [];
     this.outRange = [0, 1];
+    this.weight = 1;
     this.exponent = 1;
 
 }
@@ -155,7 +156,7 @@ ForwardSensor.prototype.checkProposal= function(x, y) {
 
     var fitness = this.getFitness(x, y);
     // console.log(fitness);
-    if (fitness < 0.85) {
+    if (fitness < 0.8) {
         return false;
     }
     return true;

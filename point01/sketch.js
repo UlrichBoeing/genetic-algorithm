@@ -38,15 +38,15 @@ function setup() {
     posTarget = createVector(310, 320);
     path01 = new Path();
     var ps = new PositionSensor(path01, posTarget);
-    ps.exponent = 1;
+    ps.weight = 1;
     path01.addSensor(ps);
     
     var is = new ImageSensor(path01, imgTarget);
-    is.exponent = 1;
+    is.weight = 1;
     path01.addSensor(is);
 
     var fs = new ForwardSensor(path01);
-    fs.exponent = 0.024;
+    fs.weight = 0.01;
     path01.addSensor(fs);
 
     // frameRate(2);
@@ -54,15 +54,22 @@ function setup() {
 }
 
 function draw() {
-    console.log(slider.value);
-    path01.sensors[1].exponent = Math.floor(slider.value / 10);
+    // console.log(slider.value);
+    // path01.sensors[1].exponent = Math.floor(slider.value / 10);
     // imgTarget.loadPixels();
     background(palette.highBg);
     image(imgDisplay, 0, 0);
     // watch01.innerHTML = path01.points.length;
     if (path01.running) {
-        for (var i = 0; i < 1; i++)
-            path01.addPoint();
+        for (var i = 0; i < 1; i++) {
+            if (!path01.addPoint()) {
+                var x = random(width);
+                var y = random(height);
+
+                path01.start(x, y);
+            }
+    }
+                ;
     } else {
 
     }
@@ -81,13 +88,14 @@ function mousePressed() {
     // path01.addSensor(new PositionSensor(posTarget));
 
     if (!(mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height)) {
+        path01.sensors[0].weight = 1;
         path01.start(mouseX, mouseY);
         // Show starting point in panel
         var msg = "(" + mouseX + ", " + mouseY + ")";
         watch01.innerHTML = msg;
     }
 
-r}
+}
 
 function keyPressed() {
     // Restart from last point
