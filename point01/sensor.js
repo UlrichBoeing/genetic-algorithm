@@ -148,19 +148,17 @@ ForwardSensor.prototype.getFitness = function(x, y) {
     return this.fitness;
 }
 
-// ForwardSensor.prototype.checkProposal= function(x, y) {
-//     if (this.path.points.length < 2) {
-//         return true;
-//     }
+ForwardSensor.prototype.checkProposal= function(x, y) {
+    if (this.path.points.length < 2) {
+        return true;
+    }
 
-//     var fitness = this.getFitness(x, y);
-//     // console.log(fitness);
-//     if (fitness < 0.85) {
-//         console.log("false");
-//         return false;
-//     }
-//     console.log("true");
-//     return true;
-// }
+    var fitness = this.getFitness(x, y);
+    // console.log(fitness);
+    if (fitness < 0.85) {
+        return false;
+    }
+    return true;
+}
 
 
