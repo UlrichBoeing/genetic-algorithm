@@ -101,7 +101,7 @@ PositionSensor.prototype.getFitness = function(x, y) {
 PositionSensor.prototype.checkTermination = function() {
     var lastPoint = this.path.lastPoint();
     var fitness = this.getFitness(lastPoint.x, lastPoint.y);
-    if (fitness > 0.98)
+    if (fitness > 0.975)
         return true;
 
     return false;
@@ -124,13 +124,13 @@ ImageSensor.prototype.getFitness = function(x, y) {
     // var redChannel = pixel[0];
 
     var index = (x + y * this.target.height) * 4;
-    var altRedChannel = this.target.pixels[index];
+    var altRedChannel = this.target.pixels[index+2];
 
 
     // if (redChannel != altRedChannel) {
     //     console.log(redChannel + " " + altRedChannel);
     // }
-    this.fitness = altRedChannel / max;
+    this.fitness = (altRedChannel / max);
     // this.fitness = 1 - this.fitness;
     return this.fitness;
 }
@@ -156,7 +156,7 @@ ForwardSensor.prototype.checkProposal= function(x, y) {
 
     var fitness = this.getFitness(x, y);
     // console.log(fitness);
-    if (fitness < 0.8) {
+    if (fitness < 0.4) {
         return false;
     }
     return true;

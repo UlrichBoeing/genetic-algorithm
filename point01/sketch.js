@@ -7,12 +7,12 @@ var watch01;
 var slider;
 
 function preload() {
-    imgTarget = loadImage("images/map01.jpg");
-    imgDisplay = loadImage("images/map01.jpg");
+    imgTarget = loadImage("images/map_eiffel.jpg");
+    imgDisplay = loadImage("images/map_eiffel.jpg");
 }
 
 function setup() {
-    canvas = createCanvas(600, 600);
+    canvas = createCanvas(800, 800);
     canvas.parent('sketch');
     watch01 = document.getElementById('watch01');
     watch01.innerHTML = "Wert01";
@@ -38,7 +38,7 @@ function setup() {
     posTarget = createVector(310, 320);
     path01 = new Path();
     var ps = new PositionSensor(path01, posTarget);
-    ps.weight = 1;
+    ps.weight = 1.5;
     path01.addSensor(ps);
     
     var is = new ImageSensor(path01, imgTarget);
@@ -46,39 +46,33 @@ function setup() {
     path01.addSensor(is);
 
     var fs = new ForwardSensor(path01);
-    fs.weight = 0.01;
+    fs.weight = 0.3;
     path01.addSensor(fs);
 
     // frameRate(2);
+    background(palette.highBg);
+    // image(imgDisplay, 0, 0);
     
 }
 
 function draw() {
+    // if (frameCount == 1000) {
+    //     noLoop();
+    // }
     // console.log(slider.value);
     // path01.sensors[1].exponent = Math.floor(slider.value / 10);
     // imgTarget.loadPixels();
-    background(palette.highBg);
-    image(imgDisplay, 0, 0);
     // watch01.innerHTML = path01.points.length;
-    if (path01.running) {
-        for (var i = 0; i < 1; i++) {
-            if (!path01.addPoint()) {
-                var x = random(width);
-                var y = random(height);
+    var x = random(width);
+    var y = random(height);
 
-                path01.start(x, y);
-            }
-    }
-                ;
-    } else {
-
-    }
+    path01.make(x, y);
     path01.show();
 
     
-    // posTarget zeichnen
-    fill(palette.bg);
-    ellipse(posTarget.x, posTarget.y, 8, 8);
+    // // posTarget zeichnen
+    // fill(palette.bg);
+    // ellipse(posTarget.x, posTarget.y, 8, 8);
 
     // imgTarget.updatePixels();
 }
@@ -89,7 +83,7 @@ function mousePressed() {
 
     if (!(mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height)) {
         path01.sensors[0].weight = 1;
-        path01.start(mouseX, mouseY);
+        path01.make(mouseX, mouseY);
         // Show starting point in panel
         var msg = "(" + mouseX + ", " + mouseY + ")";
         watch01.innerHTML = msg;
@@ -128,3 +122,6 @@ function keyPressed() {
 //     fill(51, 30);
 //     ellipse(x, y, 8, 8); 
 // }
+
+
+

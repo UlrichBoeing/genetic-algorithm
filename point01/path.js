@@ -10,12 +10,19 @@ function Path() {
     this.sensors = [];
     this.proposals = [];
 
-    this.maxPoints =300;
+    this.maxPoints =100;
     this.running = false;
 }
 
 Path.prototype.addSensor = function(sensor) {
     this.sensors.push(sensor);    
+}
+
+Path.prototype.make = function(x, y) {
+    this.start(x, y);
+    while (this.addPoint()) {
+        // console.log(this.points.length);
+    }
 }
 
 Path.prototype.start = function(x, y) {
@@ -113,6 +120,7 @@ Path.prototype.createCircleProposals = function(point) {
     var radius = 10;
 
     for (var i = 0; i < numProposals; i++) {
+        radius = random(4,20);
         var angle = (i / numProposals) * TWO_PI;
         var x = point.x + cos(angle) * radius;
         var y = point.y + sin(angle) * radius;
@@ -143,6 +151,11 @@ Path.prototype.checkProposal = function(v) {
 Path.prototype.getBestProposal = function() {
     bestFitness = -1;
     bestIndex = -1;
+
+    if (this.proposals.length == 1) {
+        return this.proposals[0];
+    }
+
     for (var i = 0; i < this.proposals.length; i++) {
         var fitness = this.getFitness(i);
         if (fitness > bestFitness) {
@@ -191,27 +204,30 @@ Path.prototype.getAngleToPoint= function(x, y) {
 }
 
 Path.prototype.show = function(){
-    // show parameters
-    var size = 9;
-    var aColor = color(palette.bg.levels[0] , palette.bg.levels[1] ,palette.bg.levels[2],90);
-    noStroke();
-    fill(aColor);
+    noFill();
+    stroke(random(220, 255), random(1,10), random(1,10), 20);
+    beginShape();
     for (var i = 0; i < this.points.length; i++) {
-        x = this.points[i].x;
-        y = this.points[i].y;
-        red = 255 * this.sensors[0].getFitness(x, y);
-        blue = 255 * this.sensors[1].getFitness(x, y);
-        var aColor = color(red, red/3, red/2);
-        fill(aColor);
-        ellipse(this.points[i].x, this.points[i].y, size, size);
+        curveVertex(this.points[i].x, this.points[i].y);
     }
-    // for (var i = 0; i < this.proposals.length; i++) {
-    //     var red = 255 - this.sensors[0].fitness[i] * 255;
-    //     var green = 255 - this.sensors[1].fitness[i] * 255;
-    //     var blue = 255- this.sensors[2].fitness[i] * 255;
-    //     var propColor = color(red, green, blue, 230);
-    //     fill(propColor);
-    //     ellipse(this.proposals[i].x, this.proposals[i].y, 8, 8);
+    endShape();
+
+
+    // show parameters
+    // var size = 9;
+    // var aColor = color(palette.bg.levels[0] , palette.bg.levels[1] ,palette.bg.levels[2],90);
+    // noStroke();
+    // fill(aColor);
+    // for (var i = 0; i < this.points.length; i++) {
+    //     x = this.points[i].x;
+    //     y = this.points[i].y;
+    //     red = 255 * this.sensors[0].getFitness(x, y);
+    //     blue = 255 * this.sensors[1].getFitness(x, y);
+    //     var aColor = color(red, red/3, red/2);
+    //     fill(aColor);
+    //     ellipse(this.points[i].x, this.points[i].y, size, size);
+    // }
+
     // }
 }
 
