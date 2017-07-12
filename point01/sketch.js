@@ -1,3 +1,10 @@
+// sketch parameter
+var imgTargetFile = "map_eiffel.jpg";
+
+// program parameter
+var maxCanvasLength = 800;
+
+
 var posTarget, imgTarget, imgDisplay;
 
 var path01;
@@ -7,12 +14,13 @@ var watch01;
 var slider;
 
 function preload() {
-    imgTarget = loadImage("images/map_eiffel.jpg");
+    imgTarget = loadImage("images/" + imgTargetFile);
     imgDisplay = loadImage("images/map_eiffel.jpg");
 }
 
 function setup() {
-    canvas = createCanvas(800, 800);
+    var canvasSize = getCanvasSize(802,802);
+    canvas = createCanvas(imgTarget.width, imgTarget.height);
     canvas.parent('sketch');
     watch01 = document.getElementById('watch01');
     watch01.innerHTML = "Wert01";
@@ -49,7 +57,8 @@ function setup() {
     fs.weight = 0.3;
     path01.addSensor(fs);
 
-    // frameRate(2);
+    // frameRate(5);
+
     background(palette.highBg);
     // image(imgDisplay, 0, 0);
     
@@ -100,28 +109,14 @@ function keyPressed() {
     }
 }
 
+function getCanvasSize(width, height) {
+    var maxImageLength = (width > height) ? width : height;
 
+    var ratio = Math.floor(maxImageLength / maxCanvasLength) + 1;
+    var canvasWidth = Math.floor(width / ratio);
+    var canvasHeight = Math.floor(height / ratio);
+    return [canvasWidth, canvasHeight];
 
-// function setup() {
-//     createCanvas(600, 600);
-    
-//     background(240);
-//     stroke(180, 0, 0);
-//     ellipse(300, 300, 350 ,350);
-//     ellipse(300, 300, 250  ,250); 
-//     ellipse(300, 300, 100 ,100);  
-//     noStroke();
-// }
-
-// function draw() {
-//     fill(180, 0, 0);
-//     ellipse(300, 300, 4, 4);
-
-//     var x = randomGaussian(300, 50);
-//     var y = randomGaussian(300, 50);
-//     fill(51, 30);
-//     ellipse(x, y, 8, 8); 
-// }
-
+}
 
 

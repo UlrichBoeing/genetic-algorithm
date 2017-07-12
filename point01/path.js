@@ -205,7 +205,7 @@ Path.prototype.getAngleToPoint= function(x, y) {
 
 Path.prototype.show = function(){
     noFill();
-    stroke(random(220, 255), random(1,10), random(1,10), 20);
+    stroke(random(220, 255), random(1,100), random(1,10), 20);
     beginShape();
     for (var i = 0; i < this.points.length; i++) {
         curveVertex(this.points[i].x, this.points[i].y);
